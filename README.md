@@ -5,14 +5,15 @@ Implementación Trabajo Práctico Especial para la materia 72.41 - Base de Datos
 ## Autores
 
 * [Julián Francisco Arce](https://github.com/JuArce)
-* [María Victoria Conca]()
-* Natali Daiana Lilienthal
+* [María Victoria Conca](https://github.com/MickyConca)
+* [Natali Daiana Lilienthal](https://github.com/Natu17)
 * [Gian Luca Pecile](https://github.com/glpecile)
 
 ## Stack
 
-* Next.js
-* Tailwind
-* FastAPI
-* RedisDB
-* PostgreSQL
+* [Typescript](https://www.typescriptlang.org/)
+* [Next.js](https://nextjs.org/)
+* [TailwindCSS](https://tailwindcss.com/docs/installation)
+* [FastAPI](https://fastapi.tiangolo.com/)
+* [RedisDB](https://redis.io/)
+* [PostgreSQL](https://www.postgresql.org/)
