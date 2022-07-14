@@ -5,6 +5,7 @@ class UserCreate(BaseModel):
     password: str
 
 class User(BaseModel):
+    email:str
     id: int
     class Config:
         orm_mode = True
