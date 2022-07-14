@@ -8,6 +8,8 @@ fastapi = "*"
 sqlalchemy = "*"
 pydantic = "*"
 redis = "*"
+psycopg2 = "*"
+passlib = "*"
 
 [dev-packages]
 
