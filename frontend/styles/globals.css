@@ -19,12 +19,16 @@
         @apply bg-slate-100 bg-slate-100 dark:bg-slate-900;
     }
 
+    .card-bg {
+        @apply bg-slate-50 dark:bg-slate-800;
+    }
+
     .form-bg {
         @apply flex flex-col mx-auto items-center justify-center p-10 h-screen bg;
     }
 
     .form-card {
-        @apply flex transition-all ease-in-out break-all space-y-2.5 flex-col container justify-center max-w-md max-h-fit my-4 p-8 bg-slate-50 dark:bg-slate-800 rounded-lg shadow-lg;
+        @apply flex transition-all ease-in-out break-all space-y-2.5 flex-col container justify-center max-w-md max-h-fit my-4 p-8 card-bg rounded-2xl shadow-lg;
     }
 
     .sidebar-icon {

@@ -5,7 +5,7 @@ interface Props {
     placeholder: string
 }
 
-export const EmailField = (props: Props) => {
+export const CustomField = (props: Props) => {
     return (
         <>
             <Field placeholder={props.placeholder} name={props.name} className="form"/>

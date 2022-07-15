@@ -3,7 +3,7 @@ import Head from "next/head";
 import {BrandLogo} from "../components/BrandLogo";
 import Link from "next/link";
 import {Form, Formik} from "formik";
-import {EmailField} from "../components/Forms/EmailField";
+import {CustomField} from "../components/Forms/CustomField";
 import {PasswordField} from "../components/Forms/PasswordField";
 import {useRouter} from "next/router";
 import * as Yup from "yup";
@@ -53,8 +53,8 @@ const Sign_up: NextPage = () => {
                     }}
                     validationSchema={SignUpSchema}>
                 <Form className="space-y-8">
-                    <EmailField name="email" placeholder="Email*"/>
-                    <EmailField name="repeatedEmail" placeholder="Repeat Email*"/>
+                    <CustomField name="email" placeholder="Email*"/>
+                    <CustomField name="repeatedEmail" placeholder="Repeat Email*"/>
                     <PasswordField name="password" placeholder="Password*"/>
                     <PasswordField name="repeatedPassword" placeholder="Repeat Password*"/>
                     <ul role="list" className="pl-3 list-disc text-xs marker:text-brand_secondary">

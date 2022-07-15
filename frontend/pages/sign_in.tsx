@@ -6,7 +6,7 @@ import {Formik, Form} from "formik";
 import {useRouter} from "next/router";
 import {BrandLogo} from "../components/BrandLogo";
 import {PasswordField} from "../components/Forms/PasswordField";
-import {EmailField} from "../components/Forms/EmailField";
+import {CustomField} from "../components/Forms/CustomField";
 
 interface Values {
     email: string;
@@ -14,7 +14,7 @@ interface Values {
 }
 
 const SignInSchema = Yup.object().shape({
-    email: Yup.string().email('Please enter a valid email.').required('Required field.'),
+    email: Yup.string().email('Please enter a valid email.').required('Required field.').matches(/[^<\/>]/, "Invalid pattern."),
     password: Yup.string().required('Required field.').min(8, 'Passwords are usually longer than 8 characters.').matches(/[^<\/>]/, "Invalid pattern."),
 })
 
@@ -45,7 +45,7 @@ const Sign_in: NextPage = () => {
                     }}
                     validationSchema={SignInSchema}>
                 <Form className="space-y-8">
-                    <EmailField name="email" placeholder="Email*"/>
+                    <CustomField name="email" placeholder="Email*"/>
                     <PasswordField name="password" placeholder="Password*"/>
                     <button className="form-button" type="submit">Log in</button>
                 </Form>
