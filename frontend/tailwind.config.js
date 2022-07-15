@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+    important: true,
     content: [
         './pages/**/*.{js,ts,jsx,tsx}',
         './components/**/*.{js,ts,jsx,tsx}',
@@ -12,11 +13,9 @@ module.exports = {
                 'brand_secondary': '#73B4F3',
                 'brand_tertiary': '#D0E7FD',
                 'typography_light': '#060A2E',
-                'bg_light': '#F4F6FB',
                 'typography_dark': '#F4F6FB',
-                'bg_dark': '#060A2E',
             },
         }
     },
-    plugins: [],
+    plugins: [require('@tailwindcss/forms')],
 }

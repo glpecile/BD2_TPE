@@ -3,5 +3,11 @@
 @tailwind utilities;
 
 @layer components {
+    .form {
+        @apply form-input dark:bg-slate-800 w-full rounded;
+    }
 
+    .error-message {
+        @apply text-xs text-red-500;
+    }
 }
