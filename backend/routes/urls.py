@@ -12,10 +12,10 @@ def get_url(key: str):
     return urlCrud.get_url(key)
 
 
+# TODO change to query param
 @routes_url.get("/user/{username}")
-def get_urls_by_username(username: str):
-    # TODO get_urls_by_username
-    return urlCrud.get_urls_by_username(username)
+def get_urls_by_user(user: int):
+    return urlCrud.get_urls_by_username(user)
 
 
 @routes_url.post("", response_model=Url)
