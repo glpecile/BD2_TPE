@@ -15,12 +15,16 @@
         @apply rounded-full bg-brand_primary p-2.5 w-full text-white hover:bg-blue-600 transition transform duration-300 ease-in-out hover:scale-[1.025] hover:-translate-y-0.5 active:scale-95;
     }
 
+    .shorten-button {
+        @apply rounded-full bg-brand_primary p-2.5 hover:bg-blue-600 transition transform duration-300 ease-in-out font-medium;
+    }
+
     .bg {
         @apply bg-slate-100 bg-slate-100 dark:bg-slate-900;
     }
 
     .card-bg {
-        @apply bg-slate-50 dark:bg-slate-800;
+        @apply bg-slate-50 dark:bg-slate-800 shadow-xl;
     }
 
     .form-bg {

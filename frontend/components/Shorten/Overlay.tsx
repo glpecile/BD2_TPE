@@ -11,15 +11,18 @@ interface Props {
 
 interface Values {
     link: string,
+    shorten: string,
 }
 
 const ShortenSchema = Yup.object().shape({
     link: Yup.string().url('Please enter a valid url to shorten.').required('Required field.').matches(/[^<\/>]/, "Invalid pattern."),
+    shorten: Yup.string().required('Required field.').matches(/[^<\/>][A-Za-z\d_-]{3,12}/, "A shortened URL should be between 4 and 12 valid characters."),
 })
 
 export const Overlay = (props: Props) => {
     const initialValues: Values = {
         link: "",
+        shorten: "",
     }
 
     return (
@@ -41,10 +44,10 @@ export const Overlay = (props: Props) => {
                     <div className="flex min-h-full items-center justify-center p-4 text-center">
                         <Transition.Child
                             as={Fragment}
-                            enter="ease-out duration-300"
+                            enter="ease-out duration-200"
                             enterFrom="opacity-0 scale-95"
                             enterTo="opacity-100 scale-100"
-                            leave="ease-in duration-200"
+                            leave="ease-in duration-100"
                             leaveFrom="opacity-100 scale-100"
                             leaveTo="opacity-0 scale-95"
                         >
@@ -60,8 +63,14 @@ export const Overlay = (props: Props) => {
                                             props.onClose();
                                         }}
                                         validationSchema={ShortenSchema}>
-                                    <Form className="space-y-6 my-4">
+                                    <Form className="space-y-6 mt-4">
                                         <CustomField name="link" placeholder="Url*"/>
+                                        <CustomField name="shorten" placeholder="Shortened url*"/>
+                                        <ul role="list" className="pl-3 list-disc text-xs marker:text-brand_secondary">
+                                            <li>A valid url has the format of <code>https://something.com.</code></li>
+                                            <li>A shortened URL should be between 4 and 12 valid characters long.</li>
+                                            <li>A valid character includes any uppercase or lowercase letter, numbers and dashes.</li>
+                                        </ul>
                                         <button className="form-button" type="submit">Shorten URL</button>
                                     </Form>
                                 </Formik>
