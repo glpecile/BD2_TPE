@@ -8,7 +8,7 @@ interface props {
 export const BrandLogo = (props: props) => {
     return (
         <Link href={'/'}>
-            <a>
+            <a className="sidebar-icon">
                 <Image src={'/../public/images/Maverick-logo.webp'} alt="Maverick_logo" height={props.size}
                        width={props.size}/>
             </a>

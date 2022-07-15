@@ -16,7 +16,7 @@ export const ToggleTheme = () => {
         return null
     }
 
-    return (<button className="transition-all duration-300 ease-linear" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-        {theme === 'dark' ? <DarkModeIcon/> : <LightModeIcon/>}
+    return (<button className="transition-all duration-300 ease-linear transform hover:scale-110 active:scale-95" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
+        {theme === 'dark' ? <DarkModeIcon /> : <LightModeIcon/>}
     </button>);
 }

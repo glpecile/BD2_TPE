@@ -57,11 +57,10 @@ const Sign_up: NextPage = () => {
                     <EmailField name="repeatedEmail" placeholder="Repeat Email*"/>
                     <PasswordField name="password" placeholder="Password*"/>
                     <PasswordField name="repeatedPassword" placeholder="Repeat Password*"/>
-                    <p className="text-xs">
-                        • Passwords must be at least 8 characters long.
-                        <br/>
-                        • Passwords must contain at least one Uppercase letter or Number.
-                    </p>
+                    <ul role="list" className="pl-3 list-disc text-xs marker:text-brand_secondary">
+                        <li>Passwords must be at least 8 characters long.</li>
+                        <li>Passwords must contain at least one Uppercase letter or Number.</li>
+                    </ul>
                     <button className="form-button" type="submit">Sign Up</button>
                 </Form>
             </Formik>
