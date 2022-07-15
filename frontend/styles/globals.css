@@ -10,4 +10,16 @@
     .error-message {
         @apply text-xs text-red-500;
     }
+
+    .form-button {
+        @apply rounded-full bg-brand_primary p-2.5 w-full text-white hover:bg-blue-600;
+    }
+
+    .form-bg {
+        @apply flex flex-col mx-auto items-center justify-center p-10 bg-slate-100 dark:bg-slate-900 h-screen;
+    }
+
+    .form-card {
+        @apply flex transition-all ease-in-out break-all space-y-2.5 flex-col container justify-center max-w-md max-h-fit my-4 p-8 bg-slate-50 dark:bg-slate-800 rounded-lg shadow-lg;
+    }
 }

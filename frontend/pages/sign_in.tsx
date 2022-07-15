@@ -1,17 +1,22 @@
-import {NextPage} from "next";
-import {Formik, Form, Field, ErrorMessage} from "formik";
-import {useRouter} from "next/router";
+import * as Yup from 'yup'
 import Head from "next/head";
 import Link from "next/link";
+import {NextPage} from "next";
+import {Formik, Form} from "formik";
+import {useRouter} from "next/router";
 import {BrandLogo} from "../components/BrandLogo";
 import {PasswordField} from "../components/Forms/PasswordField";
-import {LoginSchema} from "../components/Forms/LoginSchema";
 import {EmailField} from "../components/Forms/EmailField";
 
 interface Values {
     email: string;
     password: string;
 }
+
+const SignInSchema = Yup.object().shape({
+    email: Yup.string().email('Please enter a valid email.').required('Required field.'),
+    password: Yup.string().required('Required field.').min(8, 'Passwords are usually longer than 8 characters.').matches(/[^<\/>]/, "Invalid pattern."),
+})
 
 const Sign_in: NextPage = () => {
     const router = useRouter();
@@ -20,7 +25,7 @@ const Sign_in: NextPage = () => {
         password: "",
     }
 
-    return <div className="flex flex-col mx-auto items-center justify-center p-10 bg-slate-100 dark:bg-slate-900 h-screen">
+    return <div className="form-bg">
         <Head>
             <title>Maverick • Sign In</title>
         </Head>
@@ -31,19 +36,18 @@ const Sign_in: NextPage = () => {
                 <span className="cursor-pointer underline hover:text-brand_primary dark:hover:text-brand_secondary">Sign Up!</span>
             </Link>
         </p>
-        <div
-            className="flex transition-all ease-in-out break-all space-y-2.5 flex-col container justify-center max-w-md max-h-fit my-4 p-8 bg-slate-50 dark:bg-slate-800 rounded-lg shadow-lg">
+        <div className="form-card">
             <Formik initialValues={initialValues}
                     onSubmit={(values: Values) => {
                         // TODO: api call
                         console.log(values);
                         router.push("/");
                     }}
-                    validationSchema={LoginSchema}>
+                    validationSchema={SignInSchema}>
                 <Form className="space-y-8">
-                    <EmailField name="email" placeholder="Email"/>
-                    <PasswordField name="password" placeholder="Password"/>
-                    <button className="rounded-full bg-brand_primary p-2.5 w-full text-white hover:bg-blue-600" type="submit">Log in</button>
+                    <EmailField name="email" placeholder="Email*"/>
+                    <PasswordField name="password" placeholder="Password*"/>
+                    <button className="form-button" type="submit">Log in</button>
                 </Form>
             </Formik>
         </div>
