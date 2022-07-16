@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
 
-import models
+from crud.models import User
 from schemas.user import UserCreate
 
 from passlib.context import CryptContext
@@ -19,7 +19,7 @@ def create_user(db: Session, user: UserCreate):
                             detail="Email already registered")
 
     hashed_password = get_password_hash(user.password)
-    db_user = models.User(email=user.email, hashed_password=hashed_password)
+    db_user = User(email=user.email, hashed_password=hashed_password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -27,17 +27,17 @@ def create_user(db: Session, user: UserCreate):
 
 
 def get_users(db: Session, skip: int = 0, limit: int = 100):
-    return db.query(models.User).offset(skip).limit(limit).all()
+    return db.query(User).offset(skip).limit(limit).all()
 
 
 def get_user(db: Session, user_id: int):
-    return db.query(models.User).filter(models.User.id == user_id).first()
+    return db.query(User).filter(User.id == user_id).first()
 
 
 def get_user_by_email(db: Session, email: str):
-    return db.query(models.User).filter(models.User.email == email).first()
+    return db.query(User).filter(User.email == email).first()
 
 
 def delete_user(db: Session, user_id: int):
-    db.query(models.User).filter(models.User.id == user_id).delete()
+    db.query(User).filter(User.id == user_id).delete()
     return db.commit()

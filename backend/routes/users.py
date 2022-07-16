@@ -3,9 +3,9 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from schemas.user import User, UserCreate
-from database import SessionLocal, engine
+from crud.database import SessionLocal, engine
 import crud.userCrud as userCrud
-import models
+from crud import models
 
 routes_user = APIRouter()
 
