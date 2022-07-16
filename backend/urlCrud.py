@@ -1,7 +1,7 @@
 import redis
 from redis import ResponseError
 from redisearch import Client, IndexDefinition, TextField, NumericField, Document
-
+from fastapi import HTTPException, status
 
 r = redis.Redis(host='localhost', port=6379, db=0)
 
@@ -41,6 +41,23 @@ class Url:
             return Url(doc.id.replace('key:', ''), doc.url, doc.owner, doc.clicks)
 
 
+def create_url(key: str, url: str, owner: int):
+    k = 'key:' + key
+    if r.hget(k, 'url'):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
+                            detail="Shorten url already registered")
+
+    url_object = {
+        'url': url,
+        'owner': owner,
+        'clicks': 0
+    }
+    r.hset(k, mapping=url_object)
+    h_url = r.hgetall(k)
+    h_url = {y.decode('ascii'): h_url.get(y).decode('ascii') for y in h_url.keys()}
+    return Url.from_dict(key, h_url)
+
+
 def get_url(key: str):
     k = 'key:' + key
     url = r.hget(k, 'url')
@@ -56,18 +73,6 @@ def get_urls_by_user(owner: int):
     url_docs = owner_idx.search("@owner:" + str(owner))
     urls = list(map(Url.from_document, url_docs.docs))
     return urls
-
-
-# TODO Validar si se va a pasar el owner como objeto o como int
-def create_url(key: str, url: str, owner: int):
-    if get_url('key:' + key):
-        return
-    url_object = {
-        'url': url,
-        'owner': owner,
-        'clicks': 0
-    }
-    r.hset('key:' + key, mapping=url_object)
 
 
 def delete_url(key: str):

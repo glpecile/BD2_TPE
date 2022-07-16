@@ -11,9 +11,9 @@ def get_urls_by_user(owner: int):
     return urlCrud.get_urls_by_user(owner)
 
 
-@routes_url.post("", response_model=Url)
+@routes_url.post("", response_model=Url, status_code=201)
 def create_url(key: str, url: str, owner: int):
-    return urlCrud.create_url(key, url, owner)
+    return urlCrud.create_url(key, url, owner).__dict__
 
 
 @routes_url.get("/{key}")
