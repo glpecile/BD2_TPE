@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter
 from schemas.url import Url, UrlCreate
 
-import urlCrud
+import crud.urlCrud as urlCrud
 
 routes_url = APIRouter()
 

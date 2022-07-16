@@ -1,11 +1,15 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer
 
 from routes.urls import routes_url
 from routes.users import routes_user
 
 app = FastAPI()
 
+
+
+# CORS
 origins = [
     "http://localhost:3000",
     "http://localhost:8080"

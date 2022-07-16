@@ -4,7 +4,7 @@ from typing import List
 
 from schemas.user import User, UserCreate
 from database import SessionLocal, engine
-import userCrud
+import crud.userCrud as userCrud
 import models
 
 routes_user = APIRouter()
