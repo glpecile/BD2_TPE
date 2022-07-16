@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from schemas.url import Url
+from schemas.url import Url, UrlCreate
 
 import urlCrud
 
@@ -12,8 +12,8 @@ def get_urls_by_user(owner: int):
 
 
 @routes_url.post("", response_model=Url, status_code=201)
-def create_url(key: str, url: str, owner: int):
-    return urlCrud.create_url(key, url, owner).__dict__
+def create_url(url: UrlCreate):
+    return urlCrud.create_url(url.key, url.url, 0).__dict__
 
 
 @routes_url.get("/{key}")
