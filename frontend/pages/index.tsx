@@ -50,7 +50,7 @@ const Home: NextPage = () => {
                 <Navbar/>
 
                 <main className="flex w-full container mx-auto flex-1 flex-col items-center justify-center px-24 text-center">
-                    <div className="flex flex-wrap  w-full justify-between">
+                    <div className="flex flex-wrap w-full justify-between lg:mt-0 mt-8">
                         <h1 className="text-6xl font-bold">
                             Maverick
                         </h1>
