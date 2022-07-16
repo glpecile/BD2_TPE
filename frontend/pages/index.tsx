@@ -50,7 +50,7 @@ const Home: NextPage = () => {
                 <Navbar/>
 
                 <main className="flex w-full container mx-auto flex-1 flex-col items-center justify-center px-24 text-center">
-                    <div className="flex flex-wrap w-full justify-between lg:mt-0 mt-8">
+                    <div className="flex flex-wrap w-full justify-between space-y-4 lg:mt-0 mt-8">
                         <h1 className="text-6xl font-bold">
                             Maverick
                         </h1>
@@ -60,7 +60,7 @@ const Home: NextPage = () => {
                     </div>
                     <Overlay isOpen={isOpen} onClose={() => setIsOpen(false)}/>
 
-                    <div className="mt-6 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
+                    <div className="mt-6 mb-24 md:mb-0 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
                         {
                             DUMMY_DATA.map((url) => {
                                 return <Card key={url.url} url={url.url} shortUrl={url.shortUrl} clicks={url.clicks}/>
