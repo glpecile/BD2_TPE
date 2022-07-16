@@ -1,9 +1,9 @@
-from fastapi import APIRouter, Depends
-from schemas.user import User, UserCreate
-from database import SessionLocal, engine
+from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 from typing import List
 
+from schemas.user import User, UserCreate
+from database import SessionLocal, engine
 import userCrud
 import models
 
@@ -31,7 +31,7 @@ def get_user(user_id: int, db: Session = Depends(get_db)):
     return userCrud.get_user(db, user_id)
 
 
-@routes_user.post("", response_model=User)
+@routes_user.post("", response_model=User, status_code=status.HTTP_201_CREATED)
 def create_user(user: UserCreate, db: Session = Depends(get_db)):
     return userCrud.create_user(db, user)
 
