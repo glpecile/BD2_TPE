@@ -16,7 +16,7 @@ interface Values {
 
 const ShortenSchema = Yup.object().shape({
     link: Yup.string().url('Please enter a valid url to shorten.').required('Required field.').matches(/[^<\/>]/, "Invalid pattern."),
-    shorten: Yup.string().required('Required field.').matches(/[^<\/>][A-Za-z\d_-]{3,12}/, "A shortened URL should be between 4 and 12 valid characters."),
+    shorten: Yup.string().required('Required field.').matches(/[^<\/>][A-Za-z\d_-]{4,12}/, "A shortened URL should be between 4 and 12 valid characters."),
 })
 
 export const Overlay: React.FC<Props> = (props: Props) => {

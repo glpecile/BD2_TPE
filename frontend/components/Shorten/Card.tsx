@@ -5,7 +5,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import React, {useState} from "react";
 import {WhatsApp} from "@mui/icons-material";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import {TimeoutAlert} from "../TimeoutAlert";
+import {TimeOutAlert} from "../TimeOutAlert";
 
 interface Props {
     url: string,
@@ -17,7 +17,7 @@ export const Card: React.FC<Props> = (props: Props) => {
     const [isCopied, setIsCopied] = useState(false);
 
     return (<>
-            <TimeoutAlert message="Link copied successfully!" isOpen={isCopied} onClose={() => setIsCopied(false)}/>
+            <TimeOutAlert alertColor="border-t-green-500" message="Link copied successfully!" isOpen={isCopied} onClose={() => setIsCopied(false)}/>
 
             <div
                 className="relative w-96 card-bg hover:bg-blue-50 dark:hover:bg-blue-100/10 transition-all ease-in-out duration-100 rounded-2xl p-6 m-3 space-y-1.5 flex flex-col items-start">

@@ -3,12 +3,12 @@ import {Transition} from "@headlessui/react";
 
 interface Props {
     message: string,
+    alertColor: string,
     isOpen: boolean,
     onClose: () => void
 }
 
-export const TimeoutAlert: React.FC<Props> = (props: Props) => {
-
+export const TimeOutAlert: React.FC<Props> = (props) => {
     useEffect(() => {
         const timeout = setTimeout(() => {
             props.onClose();
@@ -27,8 +27,9 @@ export const TimeoutAlert: React.FC<Props> = (props: Props) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
         >
-            <span
-                className="z-10 absolute card-bg inset-x-0 bottom-0 p-6 max-w-md sm:max-w-xl md:max-w-2xl mx-auto mb-4 border-t-4 border-t-green-500 rounded">{props.message}</span>
+            <span onClick={props.onClose} className={"z-10 absolute card-bg inset-x-0 bottom-0 p-6 max-w-md sm:max-w-xl md:max-w-2xl mx-auto mb-4 text-center rounded border-t-4 " + props.alertColor}>
+                {props.message}
+            </span>
         </Transition.Child>
     </Transition>;
 }

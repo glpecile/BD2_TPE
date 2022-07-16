@@ -1,18 +1,24 @@
-import {NextPage} from "next";
+import * as Yup from "yup";
 import Head from "next/head";
-import {BrandLogo} from "../components/BrandLogo";
 import Link from "next/link";
+import {useCallback, useEffect, useRef, useState} from "react";
+import {NextPage} from "next";
+import {BrandLogo} from "../components/BrandLogo";
 import {Form, Formik} from "formik";
 import {CustomField} from "../components/Forms/CustomField";
 import {PasswordField} from "../components/Forms/PasswordField";
 import {useRouter} from "next/router";
-import * as Yup from "yup";
+import {userApi} from "../api/userApi";
+import {TimeOutAlert} from "../components/TimeOutAlert";
 
-interface Values {
-    email: string;
+interface Values extends User {
     repeatedEmail: string;
-    password: string;
     repeatedPassword: string;
+}
+
+interface User {
+    email: string;
+    password: string;
 }
 
 const SignUpSchema = Yup.object().shape({
@@ -30,11 +36,57 @@ const Sign_up: NextPage = () => {
         password: "",
         repeatedPassword: "",
     }
+    const [userToRegister, setUserToRegister] = useState<User | undefined>(undefined);
+    const [error, setError] = useState<boolean>(false);
+    const [success, setSuccess] = useState<boolean>(false);
+    const mountedUser = useRef(true);
+
+    const registerUser = useCallback(async (userToRegister: User) => {
+        if (!mountedUser.current) {
+            return;
+        }
+        let registerError = false;
+        try {
+            await userApi.createUser(userToRegister);
+        } catch (e: Response | any) {
+            registerError = true;
+            if (e.response.status === 400) {
+                setError(true);
+            }
+        }
+        if (!registerError) {
+            setSuccess(true);
+            const timeout = setTimeout(() => {
+                router.push("/sign_in");
+            }, 1000);
+            return () => clearTimeout(timeout);
+        }
+    }, []);
+
+    useEffect(() => {
+        mountedUser.current = true;
+        if (userToRegister !== undefined) {
+            registerUser(userToRegister);
+        }
+        return () => {
+            mountedUser.current = false;
+        }
+    }, [userToRegister]);
 
     return <div className="form-bg">
         <Head>
             <title>Maverick • Sign Up</title>
         </Head>
+
+        <TimeOutAlert message="You are now registered! Please proceed to sign in to your account." alertColor="border-t-green-500" isOpen={success}
+                      onClose={() => {
+                          setSuccess(false)
+                      }}/>
+
+        <TimeOutAlert alertColor="border-t-red-500" message="The entered email is already in use." isOpen={error} onClose={() => {
+            setError(false)
+        }}/>
+
         <BrandLogo size="128rem"/>
         <h1 className="text-3xl font-bold">Sign Up Now And Start Shortening!</h1>
         <p className="my-2">Already have an account?{' '}
@@ -47,9 +99,7 @@ const Sign_up: NextPage = () => {
         <div className="form-card">
             <Formik initialValues={initialValues}
                     onSubmit={(values: Values) => {
-                        // TODO: api call
-                        console.log(values);
-                        router.push("/");
+                        setUserToRegister(values);
                     }}
                     validationSchema={SignUpSchema}>
                 <Form className="space-y-8">
