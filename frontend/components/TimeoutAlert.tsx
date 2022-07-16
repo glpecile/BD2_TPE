@@ -1,4 +1,4 @@
-import {Fragment, useEffect} from "react";
+import React, {Fragment, useEffect} from "react";
 import {Transition} from "@headlessui/react";
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
     onClose: () => void
 }
 
-export const TimeoutAlert = (props: Props) => {
+export const TimeoutAlert: React.FC<Props> = (props: Props) => {
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -27,7 +27,8 @@ export const TimeoutAlert = (props: Props) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
         >
-            <span className="z-10 absolute card-bg inset-x-0 bottom-0 p-6 max-w-md sm:max-w-xl md:max-w-2xl mx-auto mb-4 border-t-4 border-t-green-500 rounded">{props.message}</span>
+            <span
+                className="z-10 absolute card-bg inset-x-0 bottom-0 p-6 max-w-md sm:max-w-xl md:max-w-2xl mx-auto mb-4 border-t-4 border-t-green-500 rounded">{props.message}</span>
         </Transition.Child>
     </Transition>;
 }

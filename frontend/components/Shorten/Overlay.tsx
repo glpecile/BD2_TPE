@@ -1,8 +1,8 @@
+import * as Yup from "yup";
+import React, {Fragment} from "react";
 import {Dialog, Transition} from "@headlessui/react";
-import {Fragment} from "react";
 import {Form, Formik} from "formik";
 import {CustomField} from "../Forms/CustomField";
-import * as Yup from "yup";
 
 interface Props {
     isOpen: boolean,
@@ -19,7 +19,7 @@ const ShortenSchema = Yup.object().shape({
     shorten: Yup.string().required('Required field.').matches(/[^<\/>][A-Za-z\d_-]{3,12}/, "A shortened URL should be between 4 and 12 valid characters."),
 })
 
-export const Overlay = (props: Props) => {
+export const Overlay: React.FC<Props> = (props: Props) => {
     const initialValues: Values = {
         link: "",
         shorten: "",

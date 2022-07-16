@@ -1,3 +1,4 @@
+import React from "react";
 import {ErrorMessage, Field} from "formik";
 
 interface Props {
@@ -5,7 +6,7 @@ interface Props {
     placeholder: string
 }
 
-export const CustomField = (props: Props) => {
+export const CustomField: React.FC<Props> = (props: Props) => {
     return (
         <>
             <Field placeholder={props.placeholder} name={props.name} className="form"/>

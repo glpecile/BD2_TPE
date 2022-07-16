@@ -1,6 +1,6 @@
-import {useState} from "react";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import React, {useState} from "react";
 import {ErrorMessage, Field} from "formik";
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
     placeholder: string
 }
 
-export const PasswordField = (props: Props) => {
+export const PasswordField: React.FC<Props> = (props: Props) => {
     const [showPassword, setShowPassword] = useState(false);
 
     const handleClick = () => {

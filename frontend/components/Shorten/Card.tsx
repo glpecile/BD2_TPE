@@ -2,9 +2,9 @@ import TwitterIcon from '@mui/icons-material/Twitter';
 import QrCodeIcon from '@mui/icons-material/QrCode';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import DeleteIcon from '@mui/icons-material/Delete';
+import React, {useState} from "react";
 import {WhatsApp} from "@mui/icons-material";
 import {CopyToClipboard} from 'react-copy-to-clipboard';
-import {useState} from "react";
 import {TimeoutAlert} from "../TimeoutAlert";
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
     clicks: number,
 }
 
-export const Card = (props: Props) => {
+export const Card: React.FC<Props> = (props: Props) => {
     const [isCopied, setIsCopied] = useState(false);
 
     return (<>
