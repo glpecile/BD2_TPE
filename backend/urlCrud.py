@@ -42,11 +42,12 @@ class Url:
 
 
 def get_url(key: str):
-    url = r.hget('key:' + key, 'url')
+    k = 'key:' + key
+    url = r.hget(k, 'url')
     if url is None:
         return
-    r.hincrby(key, 'clicks', 1)
-    h_url = r.hgetall(key)
+    r.hincrby(k, 'clicks', 1)
+    h_url = r.hgetall(k)
     h_url = {y.decode('ascii'): h_url.get(y).decode('ascii') for y in h_url.keys()}
     return Url.from_dict(key, h_url)
 
