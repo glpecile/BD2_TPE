@@ -9,8 +9,8 @@ sqlalchemy = "*"
 pydantic = "*"
 redis = "*"
 redisearch = "*"
-psycopg2 = "*"
 passlib = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
