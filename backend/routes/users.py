@@ -19,6 +19,7 @@ def get_db():
     finally:
         db.close()
 
+
 @routes_user.get("", response_model=List[User])
 def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     users = userCrud.get_users(db, skip=skip, limit=limit)
@@ -28,7 +29,6 @@ def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
 @routes_user.get("/{user_id}", response_model=User)
 def get_user(user_id: int, db: Session = Depends(get_db)):
     return userCrud.get_user(db, user_id)
-
 
 
 @routes_user.post("", response_model=User)
