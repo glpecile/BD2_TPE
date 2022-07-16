@@ -55,7 +55,7 @@ def create_url(key: str, url: str, owner: int):
     r.hset(k, mapping=url_object)
     h_url = r.hgetall(k)
     h_url = {y.decode('ascii'): h_url.get(y).decode('ascii') for y in h_url.keys()}
-    return Url.from_dict(key, h_url)
+    return Url.from_dict(key, h_url).__dict__
 
 
 def get_url(key: str):
@@ -66,13 +66,16 @@ def get_url(key: str):
     r.hincrby(k, 'clicks', 1)
     h_url = r.hgetall(k)
     h_url = {y.decode('ascii'): h_url.get(y).decode('ascii') for y in h_url.keys()}
-    return Url.from_dict(key, h_url)
+    return Url.from_dict(key, h_url).__dict__
 
 
 def get_urls_by_user(owner: int):
     url_docs = owner_idx.search("@owner:" + str(owner))
     urls = list(map(Url.from_document, url_docs.docs))
-    return urls
+    urls_dict = []
+    for u in urls:
+        urls_dict.append(u.__dict__)
+    return urls_dict
 
 
 def delete_url(key: str):
