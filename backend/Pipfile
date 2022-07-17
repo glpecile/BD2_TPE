@@ -12,6 +12,7 @@ redisearch = "*"
 passlib = "*"
 psycopg2-binary = "*"
 bcrypt = "*"
+python-multipart = "*"
 
 [dev-packages]
 
@@ -21,3 +22,6 @@ python_version = "3.9"
 [packages.uvicorn]
 extras = [ "standard",]
 version = "*"
+
+[packages.python-jose]
+extras = [ "cryptography",]

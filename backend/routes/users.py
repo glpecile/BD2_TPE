@@ -1,13 +1,19 @@
-from fastapi import APIRouter, Depends, status
-from sqlalchemy.orm import Session
 from typing import List
 
-from schemas.user import User, UserCreate
-from crud.database import SessionLocal, engine
+from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
+from passlib.context import CryptContext
+from sqlalchemy.orm import Session
+
+import auth.authConfig as authConfig
 import crud.userCrud as userCrud
 from crud import models
+from crud.database import SessionLocal, engine
+from schemas.user import User, UserCreate
 
 routes_user = APIRouter()
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -37,5 +43,16 @@ def create_user(user: UserCreate, db: Session = Depends(get_db)):
 
 
 @routes_user.delete("/{user_id}")
-def delete_user(user_id: int, db: Session = Depends(get_db)):
+def delete_user(user_id: int, db: Session = Depends(get_db), current_user: User = Depends(authConfig.get_current_user)):
+    if user_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
+
     return userCrud.delete_user(db, user_id)
+
+
+@routes_user.post("/login")
+async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+    user = userCrud.get_user_by_email(db, form_data.username)
+    if not user or not pwd_context.verify(form_data.password, user.hashed_password):
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect username or password")
+    return {"access_token": user.email, "token_type": "bearer"}
