@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Navbar from "../components/Navbar";
 import AddIcon from '@mui/icons-material/Add';
 import type {NextPage} from 'next'
 import {useContext, useEffect, useState} from "react";
