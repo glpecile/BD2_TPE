@@ -23,4 +23,4 @@ app.add_middleware(
 )
 
 app.include_router(routes_user, prefix="/users")
-app.include_router(routes_url, prefix="/url")
+app.include_router(routes_url, prefix="/urls")
