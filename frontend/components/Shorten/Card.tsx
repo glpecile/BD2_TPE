@@ -22,11 +22,10 @@ export const Card: React.FC<Props> = (props: Props) => {
             <div
                 className="relative w-96 card-bg hover:bg-blue-50 dark:hover:bg-blue-100/10 transition-all ease-in-out duration-100 rounded-2xl p-6 m-3 space-y-1.5 flex flex-col items-start">
                 <CopyToClipboard text={props.shortUrl} onCopy={() => setIsCopied(true)}>
-                    <h1 className={"cursor-pointer hover:underline text-3xl font-bold"} title={"Copy " + props.shortUrl + " to clipboard"}>
+                    <h1 className={"cursor-pointer hover:underline hover:underline-offset-2 text-3xl font-bold"} title={"Copy " + props.shortUrl + " to clipboard"}>
                         {props.shortUrl}
                     </h1>
                 </CopyToClipboard>
-
                 <DeleteIcon className={"cursor-pointer hover:text-red-500 dark:hover:text-red-400 absolute top-5 right-5"}/>
                 <a href={props.url}><code className="text-sm">
                     {props.url}

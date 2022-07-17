@@ -5,6 +5,8 @@ import type {NextPage} from 'next'
 import {useState} from "react";
 import {Overlay} from "../components/Shorten/Overlay";
 import {Card} from "../components/Shorten/Card";
+import Image from "next/image";
+import {NoLinks} from "../components/Shorten/NoLinks";
 
 interface ShortenedUrl {
     url: string,
@@ -58,13 +60,15 @@ const Home: NextPage = () => {
                             <AddIcon className="pb-1"/><span className="pr-1.5">Add a link</span>
                         </button>
                     </div>
+
                     <Overlay isOpen={isOpen} onClose={() => setIsOpen(false)}/>
 
                     <div className="mt-6 mb-24 md:mb-0 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
                         {
-                            DUMMY_DATA.map((url) => {
-                                return <Card key={url.url} url={url.url} shortUrl={url.shortUrl} clicks={url.clicks}/>
-                            })
+                            DUMMY_DATA.length > 0 ?
+                                DUMMY_DATA.map((url) => {
+                                    return <Card key={url.url} url={url.url} shortUrl={url.shortUrl} clicks={url.clicks}/>
+                                }) : <NoLinks/>
                         }
                     </div>
                 </main>
