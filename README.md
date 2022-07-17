@@ -25,3 +25,5 @@ Implementación Trabajo Práctico Especial para la materia 72.41 - Base de Datos
 * [FastAPI](https://fastapi.tiangolo.com/)
 * [RedisDB](https://redis.io/)
 * [PostgreSQL](https://www.postgresql.org/)
+
+---
