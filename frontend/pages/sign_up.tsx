@@ -45,22 +45,17 @@ const Sign_up: NextPage = () => {
         if (!mountedUser.current) {
             return;
         }
-        let registerError = false;
         try {
             await userApi.createUser(userToRegister);
         } catch (e: Response | any) {
-            registerError = true;
-            if (e.response.status === 400) {
-                setError(true);
-            }
+            setError(true);
+            return;
         }
-        if (!registerError) {
-            setSuccess(true);
-            const timeout = setTimeout(() => {
-                router.push("/sign_in");
-            }, 1000);
-            return () => clearTimeout(timeout);
-        }
+        setSuccess(true);
+        const timeout = setTimeout(() => {
+            router.push("/sign_in");
+        }, 1000);
+        return () => clearTimeout(timeout);
     }, []);
 
     useEffect(() => {
