@@ -7,8 +7,12 @@ import {useRouter} from "next/router";
 import {BrandLogo} from "../components/BrandLogo";
 import {PasswordField} from "../components/Forms/PasswordField";
 import {CustomField} from "../components/Forms/CustomField";
+import {useCallback, useContext, useEffect, useRef, useState} from "react";
+import {userApi} from "../api/userApi";
+import {TimeOutAlert} from "../components/TimeOutAlert";
+import {UserContext} from "../context/UserContext";
 
-interface Values {
+interface User {
     email: string;
     password: string;
 }
@@ -20,15 +24,49 @@ const SignInSchema = Yup.object().shape({
 
 const Sign_in: NextPage = () => {
     const router = useRouter();
-    const initialValues: Values = {
+    const userContext = useContext(UserContext);
+    const initialValues: User = {
         email: "",
         password: "",
     }
+    const [userToLogin, setUserToLogin] = useState<User | undefined>(undefined);
+    const mountedUser = useRef(true);
+    const [error, setError] = useState<boolean>(false);
+
+    const logInUser = useCallback(async (userToLogin: User) => {
+        if (!mountedUser.current) {
+            return;
+        }
+        try {
+            const res = await userApi.logInUser(userToLogin);
+            localStorage.setItem("token", JSON.stringify(res.data.access_token));
+            userContext.onLogin(res.data.access_token, userToLogin.email);
+        } catch (e: Response | any) {
+            setError(true);
+            return;
+        }
+        router.push("/");
+    }, []);
+
+    useEffect(() => {
+        mountedUser.current = true;
+        if (userToLogin !== undefined) {
+            logInUser(userToLogin);
+        }
+        return () => {
+            mountedUser.current = false;
+        }
+    }, [userToLogin]);
 
     return <div className="form-bg">
         <Head>
             <title>Maverick • Sign In</title>
         </Head>
+
+        <TimeOutAlert alertColor="border-t-red-500" message="Invalid email or password." isOpen={error} onClose={() => {
+            setError(false)
+        }}/>
+
         <BrandLogo size="128rem"/>
         <h1 className="text-3xl font-bold">Sign In And Start Shortening Links!</h1>
         <p className="my-2">Don't have an account?{' '}
@@ -38,10 +76,8 @@ const Sign_in: NextPage = () => {
         </p>
         <div className="form-card">
             <Formik initialValues={initialValues}
-                    onSubmit={(values: Values) => {
-                        // TODO: api call
-                        console.log(values);
-                        router.push("/");
+                    onSubmit={(values: User) => {
+                        setUserToLogin(values);
                     }}
                     validationSchema={SignInSchema}>
                 <Form className="space-y-8">
