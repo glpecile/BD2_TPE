@@ -1,9 +1,9 @@
 import * as Yup from "yup";
 import Head from "next/head";
 import Link from "next/link";
-import {useCallback, useEffect, useRef, useState} from "react";
+import Image from "next/image";
+import React, {useCallback, useEffect, useRef, useState} from "react";
 import {NextPage} from "next";
-import {BrandLogo} from "../components/BrandLogo";
 import {Form, Formik} from "formik";
 import {CustomField} from "../components/Forms/CustomField";
 import {PasswordField} from "../components/Forms/PasswordField";
@@ -82,8 +82,9 @@ const Sign_up: NextPage = () => {
             setError(false)
         }}/>
 
-        <BrandLogo size="128rem"/>
-        <h1 className="text-3xl font-bold">Sign Up Now And Start Shortening!</h1>
+        <Image src={'/images/Maverick-logo.webp'} alt="Maverick_logo" height={"128rem"} width={"128rem"}/>
+
+        <h1 className="text-3xl font-bold my-2">Sign Up Now And Start Shortening!</h1>
         <p className="my-2">Already have an account?{' '}
             <Link href={'/sign_in'}>
                 <span className="cursor-pointer underline hover:text-brand_primary dark:hover:text-brand_secondary">

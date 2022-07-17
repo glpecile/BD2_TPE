@@ -1,13 +1,13 @@
 import * as Yup from 'yup'
 import Head from "next/head";
 import Link from "next/link";
+import Image from "next/image";
 import {NextPage} from "next";
 import {Formik, Form} from "formik";
 import {useRouter} from "next/router";
-import {BrandLogo} from "../components/BrandLogo";
 import {PasswordField} from "../components/Forms/PasswordField";
 import {CustomField} from "../components/Forms/CustomField";
-import {useCallback, useContext, useEffect, useRef, useState} from "react";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import {userApi} from "../api/userApi";
 import {TimeOutAlert} from "../components/TimeOutAlert";
 import {UserContext} from "../context/UserContext";
@@ -67,8 +67,8 @@ const Sign_in: NextPage = () => {
             setError(false)
         }}/>
 
-        <BrandLogo size="128rem"/>
-        <h1 className="text-3xl font-bold">Sign In And Start Shortening Links!</h1>
+        <Image src={'/images/Maverick-logo.webp'} alt="Maverick_logo" height={"128rem"} width={"128rem"}/>
+        <h1 className="text-3xl font-bold my-2">Sign In And Start Shortening Links!</h1>
         <p className="my-2">Don't have an account?{' '}
             <Link href={'/sign_up'}>
                 <span className="cursor-pointer underline hover:text-brand_primary dark:hover:text-brand_secondary">Sign Up!</span>
