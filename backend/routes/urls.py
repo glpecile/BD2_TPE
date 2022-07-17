@@ -33,5 +33,4 @@ def delete_url(key: str, current_user: User = Depends(authConfig.get_current_use
     url = urlCrud.get_url(key)
     if url and url['owner'] != current_user.id:
         raise HTTPException(status.HTTP_403_FORBIDDEN)
-
     return urlCrud.delete_url(key)

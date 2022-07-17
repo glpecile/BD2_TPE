@@ -1,3 +1,4 @@
+from datetime import timedelta
 from typing import List
 
 from fastapi import APIRouter, Depends, status, HTTPException
@@ -50,9 +51,17 @@ def delete_user(user_id: int, db: Session = Depends(get_db), current_user: User 
     return userCrud.delete_user(db, user_id)
 
 
-@routes_user.post("/login")
+@routes_user.post("/login", response_model=authConfig.Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
-    user = userCrud.get_user_by_email(db, form_data.username)
-    if not user or not pwd_context.verify(form_data.password, user.hashed_password):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Incorrect username or password")
-    return {"access_token": user.email, "token_type": "bearer"}
+    user = authConfig.authenticate_user(db, form_data.username, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token_expires = timedelta(minutes=authConfig.ACCESS_TOKEN_EXPIRE_MINUTES)
+    access_token = authConfig.create_access_token(
+        data={"sub": user.email}, expires_delta=access_token_expires
+    )
+    return {"access_token": access_token, "token_type": "bearer"}
