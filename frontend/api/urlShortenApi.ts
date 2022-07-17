@@ -5,6 +5,12 @@ export interface ShortUrl {
     key: string;
 }
 
+interface QueryParams {
+    userId: string,
+    sort: string,
+    order: string
+}
+
 export const urlShortenApi = (() => {
 
     const createUrl = async ({url, key}: ShortUrl) => {
@@ -22,10 +28,12 @@ export const urlShortenApi = (() => {
         return await api.get(`/urls/${key}`);
     }
 
-    const getUrlsByUser = async ({userId}: { userId: string }) => {
+    const getUrlsByUser = async ({userId, sort, order}: QueryParams) => {
         return await api.get(`/urls`, {
             params: {
                 owner: userId,
+                sort: sort,
+                order: order
             }
         });
     }
