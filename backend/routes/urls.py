@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException, Query
 
 from schemas.url import Url, UrlCreate
 
@@ -12,8 +12,10 @@ routes_url = APIRouter()
 
 
 @routes_url.get("", response_model=List[Url])
-def get_urls_by_user(owner: int):
-    return urlCrud.get_urls_by_user(owner)
+def get_urls_by_user(owner: int,
+                     sort: str = Query(default='date', regex="^(date|clicks)$"),
+                     order: str = Query(default='desc', regex="^(asc|desc)$")):
+    return urlCrud.get_urls_by_user(owner, sort, order)
 
 
 @routes_url.post("", response_model=Url, status_code=201)

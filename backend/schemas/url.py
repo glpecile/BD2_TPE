@@ -1,6 +1,10 @@
+import datetime
+
 from pydantic import BaseModel, validator
 from fastapi import HTTPException, status
 import re
+
+
 # from redisearch import Document
 
 
@@ -30,8 +34,10 @@ class UrlCreate(BaseModel):
                                 detail="Urls must be a valid url")
         return v
 
+
 class Url(BaseModel):
     key: str
     url: str
     owner: int
     clicks: int
+    date: datetime.datetime

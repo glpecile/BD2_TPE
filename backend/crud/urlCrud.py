@@ -1,15 +1,18 @@
+import datetime
+import time
+
 import redis
 from redis import ResponseError
-from redisearch import Client, IndexDefinition, TextField, NumericField, Document
+from redisearch import Client, IndexDefinition, TextField, NumericField, Document, Query
 from fastapi import HTTPException, status
 
 r = redis.Redis(host='localhost', port=6379, db=0)
 
-
 SCHEMA = (
     TextField("url"),
     TextField("owner"),
-    NumericField("clicks")
+    NumericField("clicks", sortable=True),
+    NumericField("date", sortable=True)
 )
 
 owner_idx = Client("owner-idx")
@@ -24,21 +27,22 @@ except ResponseError:
 
 
 class Url:
-    def __init__(self, key: str, url: str, owner: int, clicks: int):
+    def __init__(self, key: str, url: str, owner: int, clicks: int, date):
         self.key: str = key
         self.url: str = url
         self.owner: int = owner
         self.clicks: int = clicks
+        self.date: datetime.datetime = date
 
     @staticmethod
     def from_dict(key: str, d=None):
         if d is not None:
-            return Url(key.replace('key:', ''), d['url'], int(d['owner']), int(d['clicks']))
+            return Url(key.replace('key:', ''), d['url'], int(d['owner']), int(d['clicks']), datetime.datetime.fromtimestamp(int(d['date'])))
 
     @staticmethod
     def from_document(doc: Document):
         if doc is not None:
-            return Url(doc.id.replace('key:', ''), doc.url, doc.owner, doc.clicks)
+            return Url(doc.id.replace('key:', ''), doc.url, doc.owner, doc.clicks, datetime.datetime.fromtimestamp(int(doc.date)))
 
 
 def create_url(key: str, url: str, owner: int):
@@ -49,7 +53,8 @@ def create_url(key: str, url: str, owner: int):
     url_object = {
         'url': url,
         'owner': owner,
-        'clicks': 0
+        'clicks': 0,
+        'date': int(time.time())
     }
     r.hset(k, mapping=url_object)
     return get_url_from_complete_key(k)
@@ -65,8 +70,10 @@ def get_url(key: str):
     return get_url_from_complete_key(k)
 
 
-def get_urls_by_user(owner: int):
-    url_docs = owner_idx.search("@owner:" + str(owner))
+def get_urls_by_user(owner: int, sort: str = "clicks", order: str = "desc"):
+    # url_docs = owner_idx.search("@owner:" + str(owner))
+    q = Query("@owner:" + str(owner)).sort_by(sort, asc=order == 'asc')
+    url_docs = owner_idx.search(q)
     urls = list(map(Url.from_document, url_docs.docs))
     urls_dict = []
     for u in urls:
@@ -76,7 +83,7 @@ def get_urls_by_user(owner: int):
 
 def delete_url(key: str):
     k = get_complete_key(key)
-    r.hdel(k, 'url', 'owner', 'clicks')
+    r.hdel(k, 'url', 'owner', 'clicks', 'date')
 
 
 def get_complete_key(key: str):
