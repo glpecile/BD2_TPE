@@ -4,8 +4,8 @@ import re
 
 
 class UserCreate(BaseModel):
-    email: str
-    password: str
+    email: str = 'user@email.com'
+    password: str = '123456789Aa'
 
     @validator('email')
     def validate_email(cls, v):
@@ -25,7 +25,7 @@ class UserCreate(BaseModel):
 
 
 class User(BaseModel):
-    email: str
+    email: str = 'user@email.com'
     id: int
 
     class Config:

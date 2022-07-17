@@ -9,8 +9,8 @@ import re
 
 
 class UrlCreate(BaseModel):
-    key: str
-    url: str
+    key: str = 'google'
+    url: str = 'https://www.google.com/'
 
     @validator('key')
     def validate_key(cls, v):
@@ -36,8 +36,8 @@ class UrlCreate(BaseModel):
 
 
 class Url(BaseModel):
-    key: str
-    url: str
+    key: str = 'google'
+    url: str = 'https://www.google.com/'
     owner: int
     clicks: int
     date: datetime.datetime
