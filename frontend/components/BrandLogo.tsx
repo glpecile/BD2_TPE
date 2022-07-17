@@ -10,7 +10,7 @@ export const BrandLogo: React.FC<Props> = (props: Props) => {
     return (
         <Link href={'/'}>
             <a className="sidebar-icon">
-                <Image src={'/../public/images/Maverick-logo.webp'} alt="Maverick_logo" height={props.size}
+                <Image src={'/images/Maverick-logo.webp'} alt="Maverick_logo" height={props.size}
                        width={props.size}/>
             </a>
         </Link>
