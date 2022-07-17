@@ -14,4 +14,4 @@ pipenv shell
 uvicorn main:app --reload
 ```
 
-Luego acceder a la url `http://localhost:8000/docs/`.
+Luego acceder a la url `http://localhost:8000/docs` en el navegador.
