@@ -9,6 +9,7 @@ import {NoLinks} from "../components/Shorten/NoLinks";
 import {UserContext} from "../context/UserContext";
 import {useRouter} from "next/router";
 import {Loader} from "../components/Loader";
+import {Layout} from "../components/Layout";
 
 interface ShortenedUrl {
     url: string,
@@ -52,14 +53,12 @@ const Home: NextPage = () => {
     }, []);
 
     return (
-        <div className="flex min-h-screen flex items-center justify-center py-2 bg">
+        <Layout>
             <Head>
                 <title>Maverick • Link Shortener</title>
                 <link rel="icon" href="/favicon.ico"/>
                 <meta name={'description'} content={'Shorten links on the fly.'}/>
             </Head>
-
-            <Navbar/>
 
             <main className="flex w-full container mx-auto flex-1 flex-col items-center justify-center px-24 text-center">
                 {
@@ -86,7 +85,7 @@ const Home: NextPage = () => {
                             </div>
                         </> : <Loader/>}
             </main>
-        </div>
+        </Layout>
     )
 }
 
