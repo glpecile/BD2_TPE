@@ -45,7 +45,7 @@ const Sign_in: NextPage = () => {
             setError(true);
             return;
         }
-        router.push("/");
+        router.replace("/");
     }, []);
 
     useEffect(() => {

@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Navbar from "../components/Navbar";
 import AddIcon from '@mui/icons-material/Add';
 import type {NextPage} from 'next'
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Overlay} from "../components/Shorten/Overlay";
 import {Card} from "../components/Shorten/Card";
 import {NoLinks} from "../components/Shorten/NoLinks";
@@ -44,6 +44,13 @@ const Home: NextPage = () => {
     const userContext = useContext(UserContext);
     const router = useRouter();
 
+    useEffect(() => {
+        if (!userContext.isLoggedIn) {
+            router.push("/sign_in");
+        }
+        console.log(userContext);
+    }, []);
+
     return (
         <div className="flex min-h-screen flex items-center justify-center py-2 bg">
             <Head>
@@ -56,7 +63,7 @@ const Home: NextPage = () => {
 
             <main className="flex w-full container mx-auto flex-1 flex-col items-center justify-center px-24 text-center">
                 {
-                    userContext.username ? <Loader/> :
+                    (true) ?
                         <>
                             <div className="flex flex-wrap w-full justify-between space-y-4 lg:mt-0 mt-8">
                                 <h1 className="text-6xl font-bold">
@@ -77,7 +84,7 @@ const Home: NextPage = () => {
                                         }) : <NoLinks/>
                                 }
                             </div>
-                        </>}
+                        </> : <Loader/>}
             </main>
         </div>
     )

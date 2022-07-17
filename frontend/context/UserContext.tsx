@@ -1,4 +1,4 @@
-import React, {createContext, useContext, useMemo, useState} from "react";
+import React, {createContext, useMemo, useState} from "react";
 import jwt_decode, {JwtPayload} from "jwt-decode";
 import {api} from "../api/api";
 
@@ -8,11 +8,16 @@ interface UserContextInterface {
     onLogin: (token: string, username: string) => void,
     authKey: string | null,
     username: string | undefined,
+    id: number | undefined,
 }
 
 type Props = {
     children?: React.ReactNode
 };
+
+interface jwt extends JwtPayload {
+    id: number;
+}
 
 // context
 export const UserContext = createContext({
@@ -21,8 +26,9 @@ export const UserContext = createContext({
     },
     onLogin: (token: string, username: string) => {
     },
-    authKey: '',
-    username: '',
+    authKey: null,
+    username: undefined,
+    id: undefined,
 } as UserContextInterface);
 
 // provider
@@ -34,12 +40,22 @@ export const UserContextProvider: React.FC<Props> = ({children}) => {
     (token) ? token = JSON.parse(token) : token = "";
     api.defaults.headers.common['Authorization'] = `Bearer ${token || ''}`;
     const [authKey, setAuthKey] = useState(token);
-
     const [username, setUsername] = useState(() => {
         try {
             if (!token || !jwt_decode(token))
-                return "no-user";
-            return jwt_decode<JwtPayload>(token).sub;
+                return undefined;
+            return jwt_decode<jwt>(token).sub;
+        } catch (error) {
+            if (isLoggedIn) {
+                console.log(error);
+            }
+        }
+    });
+    const [id, setId] = useState(() => {
+        try {
+            if (!token || !jwt_decode(token))
+                return undefined;
+            return jwt_decode<jwt>(token).id;
         } catch (error) {
             if (isLoggedIn) {
                 console.log(error);
@@ -57,6 +73,7 @@ export const UserContextProvider: React.FC<Props> = ({children}) => {
 
     const loginHandler = () => {
         setAuthKey(token);
+        token ? setId(jwt_decode<jwt>(token).id) : setId(undefined);
         setUsername(username);
         setLoggedIn(true);
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
@@ -68,6 +85,7 @@ export const UserContextProvider: React.FC<Props> = ({children}) => {
         onLogin: loginHandler,
         authKey,
         username,
+        id,
     }), [isLoggedIn, authKey, username]);
 
     return <UserContext.Provider value={values}> {children} </UserContext.Provider>;
