@@ -33,7 +33,7 @@ class Url:
     @staticmethod
     def from_dict(key: str, d=None):
         if d is not None:
-            return Url(key, d['url'], int(d['owner']), int(d['clicks']))
+            return Url(key.replace('key:', ''), d['url'], int(d['owner']), int(d['clicks']))
 
     @staticmethod
     def from_document(doc: Document):
@@ -42,31 +42,27 @@ class Url:
 
 
 def create_url(key: str, url: str, owner: int):
-    k = 'key:' + key
+    k = get_complete_key(key)
     if r.hget(k, 'url'):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
-                            detail="Shorten url already registered")
-
+                            detail="Shortened url already registered")
     url_object = {
         'url': url,
         'owner': owner,
         'clicks': 0
     }
     r.hset(k, mapping=url_object)
-    h_url = r.hgetall(k)
-    h_url = {y.decode('ascii'): h_url.get(y).decode('ascii') for y in h_url.keys()}
-    return Url.from_dict(key, h_url).__dict__
+    return get_url_from_complete_key(k)
 
 
 def get_url(key: str):
-    k = 'key:' + key
+    k = get_complete_key(key)
     url = r.hget(k, 'url')
     if url is None:
-        return
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                            detail="Shortened url not found")
     r.hincrby(k, 'clicks', 1)
-    h_url = r.hgetall(k)
-    h_url = {y.decode('ascii'): h_url.get(y).decode('ascii') for y in h_url.keys()}
-    return Url.from_dict(key, h_url).__dict__
+    return get_url_from_complete_key(k)
 
 
 def get_urls_by_user(owner: int):
@@ -79,4 +75,15 @@ def get_urls_by_user(owner: int):
 
 
 def delete_url(key: str):
-    r.hdel('key:' + key, 'url', 'owner', 'clicks')
+    k = get_complete_key(key)
+    r.hdel(k, 'url', 'owner', 'clicks')
+
+
+def get_complete_key(key: str):
+    return 'key:' + key
+
+
+def get_url_from_complete_key(key: str):
+    h_url = r.hgetall(key)
+    h_url = {y.decode('ascii'): h_url.get(y).decode('ascii') for y in h_url.keys()}
+    return Url.from_dict(key, h_url).__dict__
