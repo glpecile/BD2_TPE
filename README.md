@@ -1,6 +1,7 @@
 # TPE Base de Datos 2
 
 Implementación Trabajo Práctico Especial para la materia 72.41 - Base de Datos II - Primer Cuatrimestre 2022.
+![Maverick-logo](/frontend/public/images/Maverick-logo.webp)
 
 ## Autores
 

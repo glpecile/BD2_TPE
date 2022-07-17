@@ -2,7 +2,17 @@
 
 ## Instalación
 
-Correr el siguiente comando:
+### Compilación
+
+Para la compilación se usa el siguiente comando:
+
+```sh
+npm install
+```
+
+### Ejecución
+
+Luego de compilar, correr con el siguiente comando:
 
 ```sh
 npm run dev
@@ -15,3 +25,5 @@ npm run build
 ```
 
 Luego acceder a la url `http://localhost:3000` desde el navegador.
+
+Se le pedirá que ingrese se usuario, lo debe crear en ese momento.
