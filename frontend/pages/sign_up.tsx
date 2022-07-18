@@ -10,15 +10,11 @@ import {PasswordField} from "../components/Forms/PasswordField";
 import {useRouter} from "next/router";
 import {userApi} from "../api/userApi";
 import {TimeOutAlert} from "../components/TimeOutAlert";
+import {User} from "../api/userApi";
 
 interface Values extends User {
     repeatedEmail: string;
     repeatedPassword: string;
-}
-
-interface User {
-    email: string;
-    password: string;
 }
 
 const SignUpSchema = Yup.object().shape({

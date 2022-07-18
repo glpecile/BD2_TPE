@@ -2,20 +2,16 @@ import * as Yup from 'yup'
 import Head from "next/head";
 import Link from "next/link";
 import Image from "next/image";
+import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
+import {PasswordField} from "../components/Forms/PasswordField";
+import {CustomField} from "../components/Forms/CustomField";
+import {TimeOutAlert} from "../components/TimeOutAlert";
+import {UserContext} from "../context/UserContext";
 import {NextPage} from "next";
 import {Formik, Form} from "formik";
 import {useRouter} from "next/router";
-import {PasswordField} from "../components/Forms/PasswordField";
-import {CustomField} from "../components/Forms/CustomField";
-import React, {useCallback, useContext, useEffect, useRef, useState} from "react";
 import {userApi} from "../api/userApi";
-import {TimeOutAlert} from "../components/TimeOutAlert";
-import {UserContext} from "../context/UserContext";
-
-interface User {
-    email: string;
-    password: string;
-}
+import {User} from "../api/userApi";
 
 const SignInSchema = Yup.object().shape({
     email: Yup.string().email('Please enter a valid email.').required('Required field.').matches(/[^<\/>]/, "Invalid pattern."),

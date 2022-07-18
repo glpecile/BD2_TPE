@@ -5,7 +5,7 @@ import {Form, Formik} from "formik";
 import {CustomField} from "../Forms/CustomField";
 import {urlShortenApi} from "../../api/urlShortenApi";
 import {TimeOutAlert} from "../TimeOutAlert";
-import {ShortUrl} from "../../api/urlShortenApi";
+import {CreateShortUrl} from "../../api/urlShortenApi";
 
 interface Props {
     isOpen: boolean,
@@ -14,20 +14,20 @@ interface Props {
 
 const ShortenSchema = Yup.object().shape({
     url: Yup.string().url('Please enter a valid url to shorten.').required('Required field.').matches(/[^<\/>]/, "Invalid pattern."),
-    key: Yup.string().required('Required field.').matches(/[^<\/>][A-Za-z\d_-]{3,12}/, "A shortened URL should be between 4 and 12 valid characters."),
+    alias: Yup.string().required('Required field.').matches(/[^<\/>][A-Za-z\d_-]{3,12}/, "A shortened URL should be between 4 and 12 valid characters."),
 })
 
 export const Overlay: React.FC<Props> = (props: Props) => {
-    const initialValues: ShortUrl = {
+    const initialValues: CreateShortUrl = {
         url: "",
-        key: "",
+        alias: "",
     }
-    const [toShorten, setToShorten] = useState<ShortUrl | undefined>(undefined);
+    const [toShorten, setToShorten] = useState<CreateShortUrl | undefined>(undefined);
     const [error, setError] = useState<boolean>(false);
     const [success, setSuccess] = useState<boolean>(false);
     const mountedUrl = useRef(true);
 
-    const shortenLink = async (linkToShorten: ShortUrl) => {
+    const shortenLink = async (linkToShorten: CreateShortUrl) => {
         if (!mountedUrl.current) {
             return;
         }
@@ -96,7 +96,7 @@ export const Overlay: React.FC<Props> = (props: Props) => {
                                         Add a Link
                                     </Dialog.Title>
                                     <Formik initialValues={initialValues}
-                                            onSubmit={(values: ShortUrl) => {
+                                            onSubmit={(values: CreateShortUrl) => {
                                                 setToShorten(values);
                                                 console.log(values);
                                             }}
@@ -104,7 +104,7 @@ export const Overlay: React.FC<Props> = (props: Props) => {
                                         {({values}) => (
                                             <Form className="space-y-6 mt-4">
                                                 <CustomField name="url" placeholder="Url*"/>
-                                                <CustomField name="key" placeholder="Shortened url*"/>
+                                                <CustomField name="alias" placeholder="Shortened url*"/>
                                                 <ul role="list" className="pl-3 list-disc text-xs marker:text-brand_secondary">
                                                     <li>A valid url has the format of <code>https://something.com.</code></li>
                                                     <li>A shortened URL should be between 4 and 12 valid characters long.</li>

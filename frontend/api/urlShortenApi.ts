@@ -1,31 +1,39 @@
 import {api} from "./api";
 
+export interface CreateShortUrl {
+    url: string;
+    alias: string;
+}
+
 export interface ShortUrl {
     url: string;
-    key: string;
+    alias: string;
+    clicks: number,
+    date: string,
+    owner?: number,
 }
 
 interface QueryParams {
-    userId: string,
+    userId: number,
     sort: string,
     order: string
 }
 
 export const urlShortenApi = (() => {
 
-    const createUrl = async ({url, key}: ShortUrl) => {
+    const createUrl = async ({url, alias}: CreateShortUrl) => {
         return await api.post(`/urls`, {
-            'key': key,
-            'url': url,
+            alias,
+            url,
         });
     }
 
-    const deleteUrl = async ({key}: ShortUrl) => {
-        return await api.delete(`/urls/${key}`);
+    const deleteUrl = async ({alias}: ShortUrl) => {
+        return await api.delete(`/urls/${alias}`);
     }
 
-    const getUrl = async ({key}: ShortUrl) => {
-        return await api.get(`/urls/${key}`);
+    const getUrl = async ({alias}: ShortUrl) => {
+        return await api.get(`/urls/${alias}`);
     }
 
     const getUrlsByUser = async ({userId, sort, order}: QueryParams) => {
