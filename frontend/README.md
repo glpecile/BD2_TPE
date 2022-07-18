@@ -29,6 +29,6 @@ npm run build
 
 Luego acceder a la url `http://localhost:3000` desde el navegador.
 
-Se le pedirá que ingrese se usuario, lo debe crear una.
+Se le pedirá que ingrese su usuario, en caso de no tener uno, lo debe crear.
 
 ----

@@ -80,7 +80,7 @@ const Home: NextPage = () => {
                             <Overlay isOpen={isOpen} onClose={() => setIsOpen(false)}/>
 
                             <div
-                                className="transition-all ease-in-out duration-300 origin-center mt-6 mb-24 md:mb-0 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
+                                className="transition-all ease-in-out duration-300 origin-center gap-4 mt-6 mb-24 md:mb-0 flex max-w-4xl flex-wrap items-center justify-around sm:w-full">
                                 {
                                     linkData.length > 0 ?
                                         linkData.map((data) => {
