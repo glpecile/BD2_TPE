@@ -14,7 +14,7 @@ interface Props {
 
 const ShortenSchema = Yup.object().shape({
     url: Yup.string().url('Please enter a valid url to shorten.').required('Required field.').matches(/[^<\/>]/, "Invalid pattern."),
-    alias: Yup.string().required('Required field.').matches(/[^<\/>][A-Za-z\d_-]{3,12}/, "A shortened URL should be between 4 and 12 valid characters."),
+    alias: Yup.string().required('Required field.').matches(/[^<\/>][A-Za-z\d_-]+/, "A shortened URL should be between 4 and 12 valid characters.").min(4, 'Length must be greater than 4.').max(12, 'Length must be lesser than 12.'),
 })
 
 export const Overlay: React.FC<Props> = (props: Props) => {
@@ -32,11 +32,9 @@ export const Overlay: React.FC<Props> = (props: Props) => {
             return;
         }
         try {
-            const res = await urlShortenApi.createUrl(linkToShorten);
-            console.log(res);
+            await urlShortenApi.createUrl(linkToShorten);
         } catch (e) {
             setError(true);
-            console.log(e);
             return;
         }
         setSuccess(true);
@@ -74,7 +72,8 @@ export const Overlay: React.FC<Props> = (props: Props) => {
                         <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"/>
                     </Transition.Child>
 
-                    <TimeOutAlert alertColor="border-t-red-500 z-15" message="The shortened url seems to already be in use, try another one." isOpen={error}
+                    <TimeOutAlert alertColor="border-t-red-500 z-15" message="The shortened url seems to already be in use, try another one."
+                                  isOpen={error}
                                   onClose={() => {
                                       setError(false)
                                   }}/>
@@ -98,21 +97,18 @@ export const Overlay: React.FC<Props> = (props: Props) => {
                                     <Formik initialValues={initialValues}
                                             onSubmit={(values: CreateShortUrl) => {
                                                 setToShorten(values);
-                                                console.log(values);
                                             }}
                                             validationSchema={ShortenSchema}>
-                                        {({values}) => (
-                                            <Form className="space-y-6 mt-4">
-                                                <CustomField name="url" placeholder="Url*"/>
-                                                <CustomField name="alias" placeholder="Shortened url*"/>
-                                                <ul role="list" className="pl-3 list-disc text-xs marker:text-brand_secondary">
-                                                    <li>A valid url has the format of <code>https://something.com.</code></li>
-                                                    <li>A shortened URL should be between 4 and 12 valid characters long.</li>
-                                                    <li>A valid character includes any uppercase or lowercase letter, numbers and dashes.</li>
-                                                </ul>
-                                                <button className="form-button" type="submit">Shorten URL</button>
-                                            </Form>)
-                                        }
+                                        <Form className="space-y-6 mt-4">
+                                            <CustomField name="url" placeholder="Url*"/>
+                                            <CustomField name="alias" placeholder="Shortened url*"/>
+                                            <ul role="list" className="pl-3 list-disc text-xs marker:text-brand_secondary">
+                                                <li>A valid url has the format of <code>https://something.com.</code></li>
+                                                <li>A shortened URL should be between 4 and 12 valid characters long.</li>
+                                                <li>A valid character includes any uppercase or lowercase letter, numbers and dashes.</li>
+                                            </ul>
+                                            <button className="form-button" type="submit">Shorten URL</button>
+                                        </Form>
                                     </Formik>
                                 </Dialog.Panel>
                             </Transition.Child>

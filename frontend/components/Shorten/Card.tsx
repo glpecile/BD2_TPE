@@ -21,10 +21,9 @@ export const Card: React.FC<Props> = (props) => {
         if (!mounted.current)
             return
         try {
-            const res = await urlShortenApi.deleteUrl(data);
+            await urlShortenApi.deleteUrl(data);
             props.onDelete();
         } catch (e) {
-            console.log(e);
             setError(true);
             return;
         }
@@ -34,7 +33,7 @@ export const Card: React.FC<Props> = (props) => {
             <TimeOutAlert alertColor="border-t-green-500" message="Link copied successfully!" isOpen={isCopied} onClose={() => setIsCopied(false)}/>
             <TimeOutAlert alertColor="border-t-red-500" message="Error occurred while deleting link!" isOpen={error} onClose={() => setError(false)}/>
             <div
-                className="relative w-96 text-left card-bg hover:bg-blue-50 dark:hover:bg-blue-100/10 transition-all ease-in-out duration-100 rounded-2xl p-6 m-3 space-y-1.5 flex flex-col items-start">
+                className="relative w-96 break-all text-left card-bg hover:bg-blue-50 dark:hover:bg-blue-100/10 transition-all ease-in-out duration-100 rounded-2xl p-6 m-3 space-y-1.5 flex flex-col items-start">
                 <CopyToClipboard text={props.alias} onCopy={() => setIsCopied(true)}>
                     <h1 className={"cursor-pointer hover:underline hover:underline-offset-2 text-3xl font-bold"}
                         title={"Copy " + props.alias + " to clipboard"}>
