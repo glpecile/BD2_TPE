@@ -69,7 +69,7 @@ const Home: NextPage = () => {
                 setError(false)
             }}/>
 
-            <main className="relative flex w-full md:container mx-auto flex-1 flex-col items-center justify-center px-24 text-center">
+            <main className="relative flex flex-1 w-full md:container mx-auto h-screen flex-col items-center justify-center px-24 text-center">
                 {
                     (linkData) ?
                         <>

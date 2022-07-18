@@ -27,7 +27,7 @@ export const TimeOutAlert: React.FC<Props> = (props) => {
             leaveFrom="opacity-100 scale-100"
             leaveTo="opacity-0 scale-95"
         >
-            <span onClick={props.onClose} className={"z-10 absolute card-bg inset-x-0 bottom-0 p-6 max-w-md sm:max-w-xl md:max-w-2xl mx-auto mb-4 text-center rounded border-t-4 " + props.alertColor}>
+            <span onClick={props.onClose} className={"z-10 absolute card-bg inset-x-0 bottom-4 p-6 max-w-md sm:max-w-xl md:max-w-2xl mx-auto mb-4 text-center rounded border-t-4 " + props.alertColor}>
                 {props.message}
             </span>
         </Transition.Child>
