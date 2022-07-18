@@ -33,34 +33,22 @@ export const UserContext = createContext({
 
 // provider
 export const UserContextProvider: React.FC<Props> = ({children}) => {
-    const isInLocalStorage = typeof window !== 'undefined' ? localStorage.hasOwnProperty("token") : false;
-    const isInSessionStorage = typeof window !== 'undefined' ? sessionStorage.hasOwnProperty("token") : false;
+    const isInLocalStorage = typeof window != 'undefined' ? localStorage.hasOwnProperty("token") : false;
+    const isInSessionStorage = typeof window != 'undefined' ? sessionStorage.hasOwnProperty("token") : false;
     const [isLoggedIn, setLoggedIn] = useState(isInLocalStorage || isInSessionStorage);
     let token = isInLocalStorage ? localStorage.getItem("token") : isInSessionStorage ? sessionStorage.getItem("token") : "";
     (token) ? token = JSON.parse(token) : token = "";
     api.defaults.headers.common['Authorization'] = `Bearer ${token || ''}`;
     const [authKey, setAuthKey] = useState(token);
     const [username, setUsername] = useState(() => {
-        try {
-            if (!token || !jwt_decode(token))
-                return undefined;
-            return jwt_decode<jwt>(token).sub;
-        } catch (error) {
-            if (isLoggedIn) {
-                console.log(error);
-            }
-        }
+        if (!token || !jwt_decode(token))
+            return undefined;
+        return jwt_decode<jwt>(token).sub;
     });
     const [id, setId] = useState(() => {
-        try {
-            if (!token || !jwt_decode(token))
-                return undefined;
-            return jwt_decode<jwt>(token).id;
-        } catch (error) {
-            if (isLoggedIn) {
-                console.log(error);
-            }
-        }
+        if (!token || !jwt_decode(token))
+            return undefined;
+        return jwt_decode<jwt>(token).id;
     });
 
     const logoutHandler = () => {
@@ -71,22 +59,23 @@ export const UserContextProvider: React.FC<Props> = ({children}) => {
         setUsername("");
     }
 
-    const loginHandler = () => {
+    const loginHandler = (token: string, username: string) => {
+        console.log(token);
         setAuthKey(token);
-        token ? setId(jwt_decode<jwt>(token).id) : setId(undefined);
+        token != null ? setId(jwt_decode<jwt>(token).id) : setId(undefined);
         setUsername(username);
         setLoggedIn(true);
         api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
 
     const values = useMemo(() => ({
-        isLoggedIn,
         onLogout: logoutHandler,
         onLogin: loginHandler,
+        isLoggedIn,
         authKey,
         username,
         id,
-    }), [isLoggedIn, authKey, username]);
+    }), [isLoggedIn, authKey, username, id]);
 
     return <UserContext.Provider value={values}> {children} </UserContext.Provider>;
 }

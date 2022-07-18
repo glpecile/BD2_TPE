@@ -26,8 +26,8 @@ const Sign_in: NextPage = () => {
         password: "",
     }
     const [userToLogin, setUserToLogin] = useState<User | undefined>(undefined);
-    const mountedUser = useRef(true);
     const [error, setError] = useState<boolean>(false);
+    const mountedUser = useRef(true);
 
     const logInUser = useCallback(async (userToLogin: User) => {
         if (!mountedUser.current) {
@@ -35,13 +35,16 @@ const Sign_in: NextPage = () => {
         }
         try {
             const res = await userApi.logInUser(userToLogin);
-            localStorage.setItem("token", JSON.stringify(res.data.access_token));
-            userContext.onLogin(res.data.access_token, userToLogin.email);
+            const token = res.data.access_token;
+            console.log(token);
+            localStorage.setItem("token", JSON.stringify(token));
+            userContext.onLogin(token, userToLogin.email);
+            await router.replace("/");
         } catch (e: Response | any) {
+            console.log(e);
             setError(true);
             return;
         }
-        router.replace("/");
     }, []);
 
     useEffect(() => {
@@ -49,10 +52,12 @@ const Sign_in: NextPage = () => {
         if (userToLogin !== undefined) {
             logInUser(userToLogin);
         }
+        if (userContext.isLoggedIn)
+            router.replace("/");
         return () => {
             mountedUser.current = false;
         }
-    }, [userToLogin]);
+    }, [userToLogin, userContext.isLoggedIn]);
 
     return <div className="form-bg">
         <Head>
