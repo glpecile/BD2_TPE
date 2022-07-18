@@ -18,7 +18,7 @@ def get_urls_by_user(owner: int,
     return urlCrud.get_urls_by_user(owner, sort, order)
 
 
-@routes_url.post("", response_model=Url, status_code=201)
+@routes_url.post("", response_model=Url, status_code=status.HTTP_201_CREATED)
 def create_url(url: UrlCreate, current_user: User = Depends(authConfig.get_current_user)):
     if not current_user:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED)
@@ -30,7 +30,7 @@ def get_url(alias: str):
     return urlCrud.get_url(alias)
 
 
-@routes_url.delete("/{alias}")
+@routes_url.delete("/{alias}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_url(alias: str, current_user: User = Depends(authConfig.get_current_user)):
     url = urlCrud.get_url(alias)
     if url and url['owner'] != current_user.id:
