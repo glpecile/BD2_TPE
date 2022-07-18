@@ -26,4 +26,9 @@ Implementación Trabajo Práctico Especial para la materia 72.41 - Base de Datos
 * [RedisDB](https://redis.io/)
 * [PostgreSQL](https://www.postgresql.org/)
 
+## Instalación y ejecución
+Para instalar y ejecutar tanto el backend como el frontend, se encuentran disponibles los siguientes archivos README dentro 
+de cada carpeta según corresponde:
+* [Backend](/backend/README.md)
+* [Frontend](/frontend/README.md)
 ---
