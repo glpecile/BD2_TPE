@@ -22,17 +22,17 @@ def get_urls_by_user(owner: int,
 def create_url(url: UrlCreate, current_user: User = Depends(authConfig.get_current_user)):
     if not current_user:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED)
-    return urlCrud.create_url(url.key, url.url, current_user.id)
+    return urlCrud.create_url(url.alias, url.url, current_user.id)
 
 
-@routes_url.get("/{key}", response_model=Url)
-def get_url(key: str):
-    return urlCrud.get_url(key)
+@routes_url.get("/{alias}", response_model=Url)
+def get_url(alias: str):
+    return urlCrud.get_url(alias)
 
 
-@routes_url.delete("/{key}")
-def delete_url(key: str, current_user: User = Depends(authConfig.get_current_user)):
-    url = urlCrud.get_url(key)
+@routes_url.delete("/{alias}")
+def delete_url(alias: str, current_user: User = Depends(authConfig.get_current_user)):
+    url = urlCrud.get_url(alias)
     if url and url['owner'] != current_user.id:
         raise HTTPException(status.HTTP_403_FORBIDDEN)
-    return urlCrud.delete_url(key)
+    return urlCrud.delete_url(alias)

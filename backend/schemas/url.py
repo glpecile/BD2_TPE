@@ -9,11 +9,11 @@ import re
 
 
 class UrlCreate(BaseModel):
-    key: str = 'google'
+    alias: str = 'google'
     url: str = 'https://www.google.com/'
 
-    @validator('key')
-    def validate_key(cls, v):
+    @validator('alias')
+    def validate_alias(cls, v):
         if len(v) < 4 or len(v) > 12:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                                 detail="Shortened urls should be between 4 and 12 valid characters")
@@ -36,7 +36,7 @@ class UrlCreate(BaseModel):
 
 
 class Url(BaseModel):
-    key: str = 'google'
+    alias: str = 'google'
     url: str = 'https://www.google.com/'
     owner: int
     clicks: int

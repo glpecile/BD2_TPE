@@ -27,8 +27,8 @@ except ResponseError:
 
 
 class Url:
-    def __init__(self, key: str, url: str, owner: int, clicks: int, date):
-        self.key: str = key
+    def __init__(self, alias: str, url: str, owner: int, clicks: int, date):
+        self.alias: str = alias
         self.url: str = url
         self.owner: int = owner
         self.clicks: int = clicks
@@ -45,9 +45,9 @@ class Url:
             return Url(doc.id.replace('key:', ''), doc.url, doc.owner, doc.clicks, datetime.datetime.fromtimestamp(int(doc.date)))
 
 
-def create_url(key: str, url: str, owner: int):
-    k = get_complete_key(key)
-    if r.hget(k, 'url'):
+def create_url(alias: str, url: str, owner: int):
+    key = get_complete_key(alias)
+    if r.hget(key, 'url'):
         raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST,
                             detail="Shortened url already registered")
     url_object = {
@@ -56,18 +56,18 @@ def create_url(key: str, url: str, owner: int):
         'clicks': 0,
         'date': int(time.time())
     }
-    r.hset(k, mapping=url_object)
-    return get_url_from_complete_key(k)
+    r.hset(key, mapping=url_object)
+    return get_url_from_complete_key(key)
 
 
-def get_url(key: str):
-    k = get_complete_key(key)
-    url = r.hget(k, 'url')
+def get_url(alias: str):
+    key = get_complete_key(alias)
+    url = r.hget(key, 'url')
     if url is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
                             detail="Shortened url not found")
-    r.hincrby(k, 'clicks', 1)
-    return get_url_from_complete_key(k)
+    r.hincrby(key, 'clicks', 1)
+    return get_url_from_complete_key(key)
 
 
 def get_urls_by_user(owner: int, sort: str = "clicks", order: str = "desc"):
@@ -81,13 +81,13 @@ def get_urls_by_user(owner: int, sort: str = "clicks", order: str = "desc"):
     return urls_dict
 
 
-def delete_url(key: str):
-    k = get_complete_key(key)
-    r.hdel(k, 'url', 'owner', 'clicks', 'date')
+def delete_url(alias: str):
+    key = get_complete_key(alias)
+    r.hdel(key, 'url', 'owner', 'clicks', 'date')
 
 
-def get_complete_key(key: str):
-    return 'key:' + key
+def get_complete_key(alias: str):
+    return 'key:' + alias
 
 
 def get_url_from_complete_key(key: str):
