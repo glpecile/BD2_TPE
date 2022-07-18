@@ -60,7 +60,6 @@ export const UserContextProvider: React.FC<Props> = ({children}) => {
     }
 
     const loginHandler = (token: string, username: string) => {
-        console.log(token);
         setAuthKey(token);
         token != null ? setId(jwt_decode<jwt>(token).id) : setId(undefined);
         setUsername(username);

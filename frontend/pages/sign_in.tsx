@@ -36,12 +36,10 @@ const Sign_in: NextPage = () => {
         try {
             const res = await userApi.logInUser(userToLogin);
             const token = res.data.access_token;
-            console.log(token);
             localStorage.setItem("token", JSON.stringify(token));
             userContext.onLogin(token, userToLogin.email);
             await router.replace("/");
         } catch (e: Response | any) {
-            console.log(e);
             setError(true);
             return;
         }

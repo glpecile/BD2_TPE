@@ -33,11 +33,9 @@ const Home: NextPage = () => {
             return
         try {
             const fetchedLinks = await urlShortenApi.getUrlsByUser({userId: id, sort: 'date', order: 'desc'});
-            console.log(fetchedLinks);
             setLinkData(fetchedLinks.data)
         } catch (e) {
             setError(true);
-            console.log(e);
         }
     }, [])
 
@@ -50,7 +48,7 @@ const Home: NextPage = () => {
             setToDelete(false);
         }
         return () => {
-            mountedUser.current = false
+            mountedUser.current = false;
         }
     }, [userContext.id, !isOpen, toDelete])
 
@@ -92,7 +90,8 @@ const Home: NextPage = () => {
                                         }) : <NoLinks/>
                                 }
                             </div>
-                        </> : <Loader/>}
+                        </> : <Loader/>
+                }
             </main>
         </Layout>
     )
