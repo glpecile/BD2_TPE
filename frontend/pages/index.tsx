@@ -12,6 +12,7 @@ import {Layout} from "../components/Layout";
 import {urlShortenApi} from "../api/urlShortenApi";
 import {ShortUrl} from "../api/urlShortenApi";
 import {TimeOutAlert} from "../components/TimeOutAlert";
+import {ListSelect} from "../components/ListSelect";
 
 const Home: NextPage = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -21,6 +22,10 @@ const Home: NextPage = () => {
     const mountedUser = useRef(true);
     const [error, setError] = useState<boolean>(false);
     const [toDelete, setToDelete] = useState(false);
+    const sortOptions = ["date", "clicks"];
+    const [sortBy, setSortBy] = useState<string>(sortOptions[0]);
+    const orderOptions = ["asc", "desc"];
+    const [orderBy, setOrderBy] = useState<string>(orderOptions[0]);
 
     useEffect(() => {
         if (!userContext.isLoggedIn) {
@@ -28,11 +33,11 @@ const Home: NextPage = () => {
         }
     }, []);
 
-    const fetchLinks = useCallback(async (id: number) => {
+    const fetchLinks = useCallback(async (id: number, sortBy: string, orderBy: string) => {
         if (!mountedUser.current)
             return
         try {
-            const fetchedLinks = await urlShortenApi.getUrlsByUser({userId: id, sort: 'date', order: 'desc'});
+            const fetchedLinks = await urlShortenApi.getUrlsByUser({userId: id, sort: sortBy, order: orderBy});
             setLinkData(fetchedLinks.data)
         } catch (e) {
             setError(true);
@@ -43,14 +48,14 @@ const Home: NextPage = () => {
         mountedUser.current = true;
         const id = userContext.id
         if (id)
-            fetchLinks(id);
+            fetchLinks(id, sortBy, orderBy);
         if (toDelete) {
             setToDelete(false);
         }
         return () => {
             mountedUser.current = false;
         }
-    }, [userContext.id, !isOpen, toDelete])
+    }, [userContext.id, !isOpen, toDelete, sortBy, orderBy])
 
     return (
         <Layout>
@@ -64,7 +69,7 @@ const Home: NextPage = () => {
                 setError(false)
             }}/>
 
-            <main className="flex w-full container mx-auto flex-1 flex-col items-center justify-center px-24 text-center">
+            <main className="relative flex w-full md:container mx-auto flex-1 flex-col items-center justify-center px-24 text-center">
                 {
                     (linkData) ?
                         <>
@@ -72,10 +77,15 @@ const Home: NextPage = () => {
                                 <h1 className="text-6xl font-bold">
                                     Maverick
                                 </h1>
-                                <button className="shorten-button text-slate-50" onClick={() => setIsOpen(!isOpen)}>
-                                    <AddIcon className="pb-1"/><span className="pr-1.5">Add a link</span>
-                                </button>
+                                <div className="flex space-x-2.5">
+                                    <ListSelect selected={sortBy} options={sortOptions} setSelected={setSortBy} />
+                                    <ListSelect selected={orderBy} options={orderOptions} setSelected={setOrderBy}/>
+                                </div>
                             </div>
+
+                            <button className="shorten-button fixed bottom-32 md:bottom-8 right-8 text-slate-50" onClick={() => setIsOpen(!isOpen)}>
+                                <AddIcon className="pb-1"/><span className="pr-1.5">Add a link</span>
+                            </button>
 
                             <Overlay isOpen={isOpen} onClose={() => setIsOpen(false)}/>
 
