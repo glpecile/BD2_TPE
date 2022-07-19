@@ -83,7 +83,7 @@ const Home: NextPage = () => {
                                 </div>
                             </div>
 
-                            <button className="shorten-button fixed bottom-32 md:bottom-8 right-8 text-slate-50" onClick={() => setIsOpen(!isOpen)}>
+                            <button className="z-10 shadow-lg drop-shadow-lg shorten-button fixed bottom-32 md:bottom-8 right-8 text-slate-50" onClick={() => setIsOpen(!isOpen)}>
                                 <AddIcon className="pb-1"/><span className="pr-1.5">Add a link</span>
                             </button>
 
