@@ -6,6 +6,14 @@ Implementación Trabajo Práctico Especial para la materia 72.41 - Base de Datos
     <img src='/frontend/public/android-chrome-192x192.png' alt='Maverick-logo'/>
 </div>
 
+- [TPE Base de Datos 2](#tpe-base-de-datos-2)
+  - [Autores](#autores)
+  - [Stack](#stack)
+    - [Frontend](#frontend)
+    - [Backend](#backend)
+  - [Instalación y ejecución](#instalación-y-ejecución)
+  - [Presentación](#presentación)
+
 ## Autores
 
 * [Julián Francisco Arce](https://github.com/JuArce)
@@ -31,4 +39,9 @@ Para instalar y ejecutar tanto el backend como el frontend, se encuentran dispon
 de cada carpeta según corresponde:
 * [Backend](/backend/README.md)
 * [Frontend](/frontend/README.md)
+
+## Presentación
+
+La presentación al igual que una demo se encuentra presente en el siguiente [link](https://www.canva.com/design/DAFEnBs6E-A/rLhnSVmdejOmhjyAOXkGnw/view?utm_content=DAFEnBs6E-A&utm_campaign=designshare&utm_medium=link&utm_source=publishpresent).
+
 ---
