@@ -41,3 +41,6 @@ class Url(BaseModel):
     owner: int
     clicks: int
     date: datetime.datetime
+
+    class Config:
+        orm_mode = True
